@@ -8,10 +8,11 @@
 
 import UIKit
 
-class FaceViewController: UIViewController {
+class FaceViewController: UIViewController, DisplaysSensitiveData {
 
     @IBOutlet weak var imageView: UIImageView!
     var uiImage: UIImage?
+    var blackBoxes: [UIView] = []
     
     static func create(_ image: UIImage? = nil) -> FaceViewController {
         let story = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -30,7 +31,6 @@ class FaceViewController: UIViewController {
             return
         }
         self.imageView.image = i
-        self.detectEyes(image: CIImage(image: i)!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,30 +38,48 @@ class FaceViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    func detectEyes(image: CIImage) {
-        let detectorObj = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: [CIDetectorAccuracy : CIDetectorAccuracyHigh])
-        guard let detector = detectorObj else {
+    func hideSensitiveData() {
+        guard let i = uiImage, let ciImage = CIImage(image: i) else {
             return
         }
-        print("image extent:\(image.extent.size) - imageViewSize:\(imageView.bounds.size)")
-        let opts = [CIDetectorImageOrientation : 6]
-        let features = detector.features(in: image, options: opts)
+        hideEyes(image: ciImage)
+    }
+    
+    func showSensitiveData() {
+        for box in blackBoxes {
+            box.removeFromSuperview()
+        }
+        blackBoxes = []
+    }
+
+    func hideEyes(image: CIImage) {
+        let detectorOptions = [CIDetectorAccuracy : CIDetectorAccuracyHigh]
+        
+        guard let detector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: detectorOptions) else {
+            return
+        }
+        
+        let features = detector.features(in: image, options: [CIDetectorImageOrientation : 6])
+        let imageSize = image.extent.size
         
         for feature in features {
             if let face = feature as? CIFaceFeature {
-                if face.hasLeftEyePosition, face.hasRightEyePosition {
-                    
-                    let redBox = UIView(frame: rectFromEyePos(face.leftEyePosition, imageSize: image.extent.size))
-                    redBox.backgroundColor = UIColor.black
-                    self.imageView.addSubview(redBox)
-                    
-                    let blueBox = UIView(frame: rectFromEyePos(face.rightEyePosition, imageSize: image.extent.size))
-                    blueBox.backgroundColor = UIColor.black
-                    self.imageView.addSubview(blueBox)
+                if face.hasLeftEyePosition {
+                    makeBox(face.leftEyePosition, imageSize: imageSize)
+                }
+                
+                if face.hasRightEyePosition {
+                    makeBox(face.rightEyePosition, imageSize: imageSize)
                 }
             }
         }
+    }
+    
+    func makeBox(_ point: CGPoint, imageSize: CGSize) {
+        let box = UIView(frame: rectFromEyePos(point, imageSize: imageSize))
+        box.backgroundColor = UIColor.black
+        blackBoxes.append(box)
+        self.imageView.addSubview(box)
     }
     
     func rectFromEyePos(_ point: CGPoint, imageSize: CGSize) -> CGRect {

@@ -14,7 +14,7 @@ protocol DisplaysSensitiveData {
     func showSensitiveData()
 }
 
-class ViewController: UIViewController, DisplaysSensitiveData {
+class ViewController: UIViewController {
 
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var imageView: UIImageView!
@@ -157,13 +157,6 @@ class ViewController: UIViewController, DisplaysSensitiveData {
             }
         }
     }
-
-    func hideSensitiveData() {
-        takeScreenshot(self)
-    }
-    
-    func showSensitiveData() {
-    }
     
     func startRunning() {
         performConfiguration { () -> Void in
@@ -175,29 +168,5 @@ class ViewController: UIViewController, DisplaysSensitiveData {
         performConfiguration { () -> Void in
             self.session.stopRunning()
         }
-    }
-}
-
-extension UIImage
-{
-    // Translated from <https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/06_MediaRepresentations.html#//apple_ref/doc/uid/TP40010188-CH2-SW4>
-    convenience init?(fromSampleBuffer sampleBuffer: CMSampleBuffer)
-    {
-        guard let imageBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return nil }
-        
-        if CVPixelBufferLockBaseAddress(imageBuffer, .readOnly) != kCVReturnSuccess { return nil }
-        defer { CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly) }
-        
-        let context = CGContext(
-            data: CVPixelBufferGetBaseAddress(imageBuffer),
-            width: CVPixelBufferGetWidth(imageBuffer),
-            height: CVPixelBufferGetHeight(imageBuffer),
-            bitsPerComponent: 8,
-            bytesPerRow: CVPixelBufferGetBytesPerRow(imageBuffer),
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue)
-        
-        guard let c = context, let quartzImage = c.makeImage() else { return nil }
-        self.init(cgImage: quartzImage)
     }
 }

@@ -19,13 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        if let vc = window?.rootViewController as? DisplaysSensitiveData {
+        if let nav = window?.rootViewController as? UINavigationController,
+            let vc = nav.topViewController as? DisplaysSensitiveData {
             vc.hideSensitiveData()
         }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        if let vc = window?.rootViewController as? DisplaysSensitiveData {
+        if let nav = window?.rootViewController as? UINavigationController,
+            let vc = nav.topViewController as? DisplaysSensitiveData {
             vc.showSensitiveData()
         }
     }
