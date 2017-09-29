@@ -17,18 +17,38 @@ protocol DisplaysSensitiveData {
 class ViewController: UIViewController, DisplaysSensitiveData {
 
     @IBOutlet weak var previewView: UIView!
-    private var currentCameraDevice:AVCaptureDevice?
-    
+    @IBOutlet weak var imageView: UIImageView!
     private var sessionQueue = DispatchQueue(label: "com.example.session_access_queue")
     
     private var session:AVCaptureSession!
-    private var backCameraDevice:AVCaptureDevice?
-    private var frontCameraDevice:AVCaptureDevice?
+    private var cameraDevice:AVCaptureDevice?
     private var stillCameraOutput:AVCaptureStillImageOutput!
     private var videoOutput:AVCaptureVideoDataOutput!
     private var metadataOutput:AVCaptureMetadataOutput!
     
     var previewLayer:AVCaptureVideoPreviewLayer!
+    
+    @IBAction func takeScreenshot(_ sender: Any) {
+        let faceVC = FaceViewController.create()
+        self.navigationController?.pushViewController(faceVC, animated: false)
+        return
+        guard let videoConnection = stillCameraOutput.connection(with: .video) else {
+            return
+        }
+        self.stillCameraOutput.captureStillImageAsynchronously(from: videoConnection) { buffer, error in
+            guard let buff = buffer else {
+                return
+            }
+            let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buff)
+            
+            if let data = imageData, let i = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    let faceVC = FaceViewController.create(i)
+                    self.navigationController?.pushViewController(faceVC, animated: false)
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,13 +95,13 @@ class ViewController: UIViewController, DisplaysSensitiveData {
     }
     
     func showAccessDeniedMessage() {
-        
+        let alert = UIAlertController(title: "Need Camera Access", message: "This is a selfie app...", preferredStyle: .alert)
+        present(alert, animated: false, completion: nil)
     }
     
     func configureSession() {
         configureDeviceInput()
         configureStillImageCameraOutput()
-        configureFaceDetection()
     }
     
     func configureDeviceInput() {
@@ -90,24 +110,18 @@ class ViewController: UIViewController, DisplaysSensitiveData {
             
             let availableCameraDevices = AVCaptureDevice.devices(for: .video)
             for device in availableCameraDevices {
-                if device.position == .back {
-                    self.backCameraDevice = device
-                }
-                else if device.position == .front {
-                    self.frontCameraDevice = device
+                if device.position == .front {
+                    self.cameraDevice = device
                 }
             }
             
-            if let front = self.frontCameraDevice {
-                self.currentCameraDevice = front
+            if let front = self.cameraDevice {
                 do {
                     let input = try AVCaptureDeviceInput(device: front)
                     if self.session.canAddInput(input) {
                         self.session.addInput(input)
                     }
-                } catch {
-                    
-                }
+                } catch { }
             }
         }
     }
@@ -126,33 +140,6 @@ class ViewController: UIViewController, DisplaysSensitiveData {
         }
     }
     
-    
-    func configureVideoOutput() {
-        performConfiguration { () -> Void in
-            self.videoOutput = AVCaptureVideoDataOutput()
-            self.videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "sample buffer delegate"))
-            if self.session.canAddOutput(self.videoOutput) {
-                self.session.addOutput(self.videoOutput)
-            }
-        }
-    }
-    
-    
-    func configureFaceDetection() {
-        performConfiguration { () -> Void in
-            self.metadataOutput = AVCaptureMetadataOutput()
-            self.metadataOutput.setMetadataObjectsDelegate(self, queue: self.sessionQueue)
-            
-            if self.session.canAddOutput(self.metadataOutput) {
-                self.session.addOutput(self.metadataOutput)
-            }
-            
-            if self.metadataOutput.availableMetadataObjectTypes.contains(.face) {
-                self.metadataOutput.metadataObjectTypes = [.face]
-            }
-        }
-    }
-    
     func performConfiguration(block: @escaping (() -> Void)) {
         sessionQueue.async() { () -> Void in
             block()
@@ -160,12 +147,12 @@ class ViewController: UIViewController, DisplaysSensitiveData {
     }
     
     func performConfigurationOnCurrentCameraDevice(block: @escaping ((_ currentDevice:AVCaptureDevice) -> Void)) {
-        if let currentDevice = self.currentCameraDevice {
+        if let device = self.cameraDevice {
             performConfiguration { () -> Void in
                 do {
-                    try currentDevice.lockForConfiguration()
-                    block(currentDevice)
-                    currentDevice.unlockForConfiguration()
+                    try device.lockForConfiguration()
+                    block(device)
+                    device.unlockForConfiguration()
                 } catch {
                     
                 }
@@ -174,6 +161,7 @@ class ViewController: UIViewController, DisplaysSensitiveData {
     }
 
     func hideSensitiveData() {
+        takeScreenshot(self)
     }
     
     func showSensitiveData() {
@@ -184,44 +172,10 @@ class ViewController: UIViewController, DisplaysSensitiveData {
             self.session.startRunning()
         }
     }
-    
-    
+
     func stopRunning() {
         performConfiguration { () -> Void in
             self.session.stopRunning()
         }
-    }
-}
-    
-extension ViewController: AVCaptureMetadataOutputObjectsDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
-        
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
-        
-        //let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-        //let image = CIImage(CVPixelBuffer: pixelBuffer!)
-        
-        //        self.delegate?.cameraController?(self, didOutputImage: image)
-    }
-    
-    
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
-        /*
-        var faces = Array<(id:Int,frame:CGRect)>()
-        
-        for metadataObject in metadataObjects as [AVMetadataObject] {
-            if metadataObject.type == AVMetadataObjectTypeFace {
-                if let faceObject = metadataObject as? AVMetadataFaceObject {
-                    var transformedMetadataObject = previewLayer.transformedMetadataObjectForMetadataObject(metadataObject)
-                    let face:(id: Int, frame: CGRect) = (faceObject.faceID, transformedMetadataObject.bounds)
-                    faces.append(face)
-                }
-            }
-        }
-        
-        if let delegate = self.delegate {
-            dispatch_async(dispatch_get_main_queue()) {
-                delegate.cameraController(self, didDetectFaces: faces)
-            }
-        }*/
     }
 }
