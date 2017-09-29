@@ -16,7 +16,7 @@
 		D897698A1F7D56D80061F776 /* FaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89769891F7D56D80061F776 /* FaceViewController.swift */; };
 		D89769911F7D923E0061F776 /* test.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = D897698F1F7D923B0061F776 /* test.jpeg */; };
 		D89769921F7D92410061F776 /* test2.png in Resources */ = {isa = PBXBuildFile; fileRef = D89769901F7D923B0061F776 /* test2.png */; };
-		D89769941F7D95380061F776 /* bigSean.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D89769931F7D95360061F776 /* bigSean.jpg */; };
+		D89769961F7E9FC10061F776 /* bigSean.png in Resources */ = {isa = PBXBuildFile; fileRef = D89769951F7E9FC10061F776 /* bigSean.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +43,7 @@
 		D89769891F7D56D80061F776 /* FaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceViewController.swift; sourceTree = "<group>"; };
 		D897698F1F7D923B0061F776 /* test.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = test.jpeg; sourceTree = "<group>"; };
 		D89769901F7D923B0061F776 /* test2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test2.png; sourceTree = "<group>"; };
-		D89769931F7D95360061F776 /* bigSean.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bigSean.jpg; sourceTree = "<group>"; };
+		D89769951F7E9FC10061F776 /* bigSean.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigSean.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +85,7 @@
 		D8934D141F79A340003DEE10 /* selfieapp */ = {
 			isa = PBXGroup;
 			children = (
+				D89769951F7E9FC10061F776 /* bigSean.png */,
 				D8934D151F79A340003DEE10 /* AppDelegate.swift */,
 				D8934D171F79A340003DEE10 /* ViewController.swift */,
 				D8934D191F79A340003DEE10 /* Main.storyboard */,
@@ -92,7 +93,6 @@
 				D8934D1E1F79A340003DEE10 /* LaunchScreen.storyboard */,
 				D8934D211F79A340003DEE10 /* Info.plist */,
 				D89769891F7D56D80061F776 /* FaceViewController.swift */,
-				D89769931F7D95360061F776 /* bigSean.jpg */,
 				D897698F1F7D923B0061F776 /* test.jpeg */,
 				D89769901F7D923B0061F776 /* test2.png */,
 			);
@@ -192,7 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8934D201F79A340003DEE10 /* LaunchScreen.storyboard in Resources */,
-				D89769941F7D95380061F776 /* bigSean.jpg in Resources */,
+				D89769961F7E9FC10061F776 /* bigSean.png in Resources */,
 				D89769921F7D92410061F776 /* test2.png in Resources */,
 				D89769911F7D923E0061F776 /* test.jpeg in Resources */,
 				D8934D1D1F79A340003DEE10 /* Assets.xcassets in Resources */,

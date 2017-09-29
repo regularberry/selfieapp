@@ -71,14 +71,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="topRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="LeR-qH-0hJ">
-                                <rect key="frame" x="0.0" y="20" width="336" height="448"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bigSean.png" translatesAutoresizingMaskIntoConstraints="NO" id="LeR-qH-0hJ">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="SUx-Td-rth" firstAttribute="trailing" secondItem="LeR-qH-0hJ" secondAttribute="trailing" constant="39" id="ThA-y4-CUH"/>
-                            <constraint firstItem="SUx-Td-rth" firstAttribute="bottom" secondItem="LeR-qH-0hJ" secondAttribute="bottom" constant="199" id="seU-zx-gj1"/>
+                            <constraint firstItem="SUx-Td-rth" firstAttribute="trailing" secondItem="LeR-qH-0hJ" secondAttribute="trailing" id="ThA-y4-CUH"/>
+                            <constraint firstItem="SUx-Td-rth" firstAttribute="bottom" secondItem="LeR-qH-0hJ" secondAttribute="bottom" id="seU-zx-gj1"/>
                             <constraint firstItem="LeR-qH-0hJ" firstAttribute="leading" secondItem="SUx-Td-rth" secondAttribute="leading" id="t2E-5A-Rtj"/>
                             <constraint firstItem="SUx-Td-rth" firstAttribute="top" secondItem="LeR-qH-0hJ" secondAttribute="top" id="tSL-cy-sns"/>
                         </constraints>
@@ -94,6 +94,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="test.jpeg" width="336" height="448"/>
+        <image name="bigSean.png" width="960" height="1280"/>
     </resources>
 </document>
