@@ -23,7 +23,7 @@ class FaceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let i = uiImage else {
+        guard let i = imageView.image else {
             return
         }
         self.imageView.image = i

@@ -29,6 +29,9 @@ class ViewController: UIViewController, DisplaysSensitiveData {
     var previewLayer:AVCaptureVideoPreviewLayer!
     
     @IBAction func takeScreenshot(_ sender: Any) {
+        let faceVC = FaceViewController.create()
+        self.navigationController?.pushViewController(faceVC, animated: false)
+        return
         guard let videoConnection = stillCameraOutput.connection(with: .video) else {
             return
         }
@@ -37,8 +40,6 @@ class ViewController: UIViewController, DisplaysSensitiveData {
                 return
             }
             let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buff)
-            
-            
             
             if let data = imageData, let i = UIImage(data: data), let pngData = UIImagePNGRepresentation(i), let secondImage = UIImage(data: pngData) {
                 

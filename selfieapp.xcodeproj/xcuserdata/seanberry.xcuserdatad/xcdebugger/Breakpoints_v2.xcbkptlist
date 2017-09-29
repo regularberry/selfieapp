@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "selfieapp/ViewController.swift"
-            timestampString = "528395649.910083"
+            timestampString = "528397035.169453"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "init(fromSampleBuffer:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "selfieapp/ViewController.swift"
-            timestampString = "528395649.910502"
+            timestampString = "528397035.169522"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "init(fromSampleBuffer:)"
             landmarkType = "7">
             <Locations>
@@ -42,12 +42,12 @@
                   moduleName = "selfieapp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/seanberry/Projects/selfieapp/selfieapp/ViewController.swift"
-                  timestampString = "528395650.010241"
+                  timestampString = "528397035.253924"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "191"
-                  endingLineNumber = "191"
-                  offsetFromSymbolStart = "460">
+                  startingLineNumber = "192"
+                  endingLineNumber = "192"
+                  offsetFromSymbolStart = "547">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -57,14 +57,30 @@
                   moduleName = "selfieapp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/seanberry/Projects/selfieapp/selfieapp/ViewController.swift"
-                  timestampString = "528395650.01176"
+                  timestampString = "528397035.255953"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "191"
-                  endingLineNumber = "191"
-                  offsetFromSymbolStart = "20">
+                  startingLineNumber = "192"
+                  endingLineNumber = "192"
+                  offsetFromSymbolStart = "12">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "selfieapp/FaceViewController.swift"
+            timestampString = "528397050.405208"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "detectEyes(image:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
