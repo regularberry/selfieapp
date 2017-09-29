@@ -23,7 +23,7 @@ class FaceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let i = imageView.image else {
+        guard let i = uiImage else {
             return
         }
         self.imageView.image = i
@@ -41,8 +41,8 @@ class FaceViewController: UIViewController {
         guard let detector = detectorObj else {
             return
         }
-        
-        let opts = [CIDetectorImageOrientation : 2]
+        print("image extent:\(image.extent.size) - imageViewSize:\(imageView.bounds.size)")
+        let opts = [CIDetectorImageOrientation : 6]
         let features = detector.features(in: image, options: opts)
         
         for feature in features {
@@ -70,7 +70,6 @@ class FaceViewController: UIViewController {
     
     func translateRect(_ rect: CGRect, image: CIImage) -> CGRect {
         let ciImageSize = image.extent.size
-        print("image extent:\(image.extent.size) - imageViewSize:\(imageView.bounds.size)")
         var transform = CGAffineTransform(scaleX: 1, y: -1)
         transform = transform.translatedBy(x: 0, y: -ciImageSize.height)
         

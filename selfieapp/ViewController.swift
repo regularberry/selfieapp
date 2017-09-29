@@ -29,9 +29,6 @@ class ViewController: UIViewController, DisplaysSensitiveData {
     var previewLayer:AVCaptureVideoPreviewLayer!
     
     @IBAction func takeScreenshot(_ sender: Any) {
-        let faceVC = FaceViewController.create()
-        self.navigationController?.pushViewController(faceVC, animated: false)
-        return
         guard let videoConnection = stillCameraOutput.connection(with: .video) else {
             return
         }
@@ -41,9 +38,12 @@ class ViewController: UIViewController, DisplaysSensitiveData {
             }
             let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buff)
             
-            if let data = imageData, let i = UIImage(data: data) {
+            
+            
+            if let data = imageData, let i = UIImage(data: data), let pngData = UIImagePNGRepresentation(i), let secondImage = UIImage(data: pngData) {
+                
                 DispatchQueue.main.async {
-                    let faceVC = FaceViewController.create(i)
+                    let faceVC = FaceViewController.create(secondImage)
                     self.navigationController?.pushViewController(faceVC, animated: false)
                 }
             }
@@ -177,5 +177,29 @@ class ViewController: UIViewController, DisplaysSensitiveData {
         performConfiguration { () -> Void in
             self.session.stopRunning()
         }
+    }
+}
+
+extension UIImage
+{
+    // Translated from <https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/06_MediaRepresentations.html#//apple_ref/doc/uid/TP40010188-CH2-SW4>
+    convenience init?(fromSampleBuffer sampleBuffer: CMSampleBuffer)
+    {
+        guard let imageBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return nil }
+        
+        if CVPixelBufferLockBaseAddress(imageBuffer, .readOnly) != kCVReturnSuccess { return nil }
+        defer { CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly) }
+        
+        let context = CGContext(
+            data: CVPixelBufferGetBaseAddress(imageBuffer),
+            width: CVPixelBufferGetWidth(imageBuffer),
+            height: CVPixelBufferGetHeight(imageBuffer),
+            bitsPerComponent: 8,
+            bytesPerRow: CVPixelBufferGetBytesPerRow(imageBuffer),
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue)
+        
+        guard let c = context, let quartzImage = c.makeImage() else { return nil }
+        self.init(cgImage: quartzImage)
     }
 }
