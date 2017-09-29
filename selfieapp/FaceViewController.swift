@@ -26,7 +26,7 @@ class FaceViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard let i = imageView.image else {
+        guard let i = uiImage else {
             return
         }
         self.imageView.image = i
@@ -72,7 +72,7 @@ class FaceViewController: UIViewController {
         let offsetY = (viewSize.height - imageSize.width * scale) / 2
         
         let yPosPerc = point.x / imageSize.width
-        var yPos = offsetY + yPosPerc * imageSize.width * scale
+        let yPos = offsetY + yPosPerc * imageSize.width * scale
         
         let xPosPerc = point.y / imageSize.height
         let xPos = offsetX + xPosPerc * viewSize.width
