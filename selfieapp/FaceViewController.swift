@@ -22,7 +22,10 @@ class FaceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         guard let i = imageView.image else {
             return
         }
@@ -48,49 +51,42 @@ class FaceViewController: UIViewController {
         for feature in features {
             if let face = feature as? CIFaceFeature {
                 if face.hasLeftEyePosition, face.hasRightEyePosition {
-                    let width = 140
-                    let height = 60
-                    var leftEyeBounds = CGRect(x: 0, y: 0, width: width, height: height)
-                    leftEyeBounds = leftEyeBounds.setCenter(face.leftEyePosition)
                     
-                    let redBox = UIView(frame: translateRect(leftEyeBounds, image: image))
-                    redBox.backgroundColor = UIColor.red
+                    let redBox = UIView(frame: rectFromEyePos(face.leftEyePosition, imageSize: image.extent.size))
+                    redBox.backgroundColor = UIColor.black
                     self.imageView.addSubview(redBox)
                     
-                    var rightEyeBounds = CGRect(x: 0, y: 0, width: width, height: height)
-                    rightEyeBounds = rightEyeBounds.setCenter(face.rightEyePosition)
-                    
-                    let blueBox = UIView(frame: translateRect(rightEyeBounds, image: image))
-                    blueBox.backgroundColor = UIColor.blue
+                    let blueBox = UIView(frame: rectFromEyePos(face.rightEyePosition, imageSize: image.extent.size))
+                    blueBox.backgroundColor = UIColor.black
                     self.imageView.addSubview(blueBox)
                 }
             }
         }
     }
     
-    func translateRect(_ rect: CGRect, image: CIImage) -> CGRect {
-        let ciImageSize = image.extent.size
-        var transform = CGAffineTransform(scaleX: 1, y: -1)
-        transform = transform.translatedBy(x: 0, y: -ciImageSize.height)
-        
-        var finalRect = rect.applying(transform)
-        
-        // Calculate the actual position and size of the rectangle in the image view
+    func rectFromEyePos(_ point: CGPoint, imageSize: CGSize) -> CGRect {
         let viewSize = self.imageView.bounds.size
-        let scale = min(viewSize.width / ciImageSize.width,
-                        viewSize.height / ciImageSize.height)
-        let offsetX = (viewSize.width - ciImageSize.width * scale) / 2
-        let offsetY = (viewSize.height - ciImageSize.height * scale) / 2
+        let scale = min(viewSize.width / imageSize.height,
+                        viewSize.height / imageSize.width)
+        let offsetX = (viewSize.width - imageSize.height * scale) / 2
+        let offsetY = (viewSize.height - imageSize.width * scale) / 2
         
-        finalRect = finalRect.applying(CGAffineTransform(scaleX: scale, y: scale))
-        finalRect.origin.x += offsetX
-        finalRect.origin.y += offsetY
-        return finalRect
+        let yPosPerc = point.x / imageSize.width
+        var yPos = offsetY + yPosPerc * imageSize.width * scale
+        
+        let xPosPerc = point.y / imageSize.height
+        let xPos = offsetX + xPosPerc * viewSize.width
+        
+        let width = 60
+        let height = 20
+        var bounds = CGRect(x: 0, y: 0, width: width, height: height)
+        bounds = bounds.setCenter(CGPoint(x: xPos, y: yPos))
+        return bounds
     }
 }
 
 extension CGRect {
     func setCenter(_ center: CGPoint) -> CGRect {
-        return CGRect(x: center.x - size.width/2, y: center.y + size.height/2, width: size.width, height: size.height)
+        return CGRect(x: center.x - size.width/2, y: center.y - size.height/2, width: size.width, height: size.height)
     }
 }
