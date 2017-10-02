@@ -9,11 +9,6 @@
 import UIKit
 import AVFoundation
 
-protocol DisplaysSensitiveData {
-    func hideSensitiveData()
-    func showSensitiveData()
-}
-
 class ViewController: UIViewController {
 
     @IBOutlet weak var previewView: UIView!

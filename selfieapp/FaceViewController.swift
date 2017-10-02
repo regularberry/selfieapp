@@ -8,11 +8,10 @@
 
 import UIKit
 
-class FaceViewController: UIViewController, DisplaysSensitiveData {
-
+class FaceViewController: UIViewController {
+    var blackBoxes: [UIView] = []
     @IBOutlet weak var imageView: UIImageView!
     var uiImage: UIImage?
-    var blackBoxes: [UIView] = []
     
     static func create(_ image: UIImage? = nil) -> FaceViewController {
         let story = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -23,42 +22,19 @@ class FaceViewController: UIViewController, DisplaysSensitiveData {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         guard let i = uiImage else {
             return
         }
         self.imageView.image = i
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func hideSensitiveData() {
-        guard let i = uiImage, let ciImage = CIImage(image: i) else {
-            return
-        }
-        hideEyes(image: ciImage)
-    }
-    
-    func showSensitiveData() {
-        for box in blackBoxes {
-            box.removeFromSuperview()
-        }
-        blackBoxes = []
-    }
-
     func hideEyes(image: CIImage) {
         let detectorOptions = [CIDetectorAccuracy : CIDetectorAccuracyHigh]
-        
         guard let detector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: detectorOptions) else {
             return
         }
         
+        // pictures come in rotated 90 degrees counter-clockwise from the camera
         let features = detector.features(in: image, options: [CIDetectorImageOrientation : 6])
         let imageSize = image.extent.size
         
@@ -82,6 +58,8 @@ class FaceViewController: UIViewController, DisplaysSensitiveData {
         self.imageView.addSubview(box)
     }
     
+    // tricky algebra that takes into account how our imageView will display the image (aspectFit)
+    // as well as rotating it 90 degrees clockwise
     func rectFromEyePos(_ point: CGPoint, imageSize: CGSize) -> CGRect {
         let viewSize = self.imageView.bounds.size
         let scale = min(viewSize.width / imageSize.height,
@@ -106,5 +84,21 @@ class FaceViewController: UIViewController, DisplaysSensitiveData {
 extension CGRect {
     func setCenter(_ center: CGPoint) -> CGRect {
         return CGRect(x: center.x - size.width/2, y: center.y - size.height/2, width: size.width, height: size.height)
+    }
+}
+
+extension FaceViewController: DisplaysSensitiveData {
+    func hideSensitiveData() {
+        guard let i = uiImage, let ciImage = CIImage(image: i) else {
+            return
+        }
+        hideEyes(image: ciImage)
+    }
+    
+    func showSensitiveData() {
+        for box in blackBoxes {
+            box.removeFromSuperview()
+        }
+        blackBoxes = []
     }
 }

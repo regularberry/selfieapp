@@ -14,6 +14,7 @@
 		D8934D201F79A340003DEE10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8934D1E1F79A340003DEE10 /* LaunchScreen.storyboard */; };
 		D8934D2B1F79A340003DEE10 /* selfieappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8934D2A1F79A340003DEE10 /* selfieappTests.swift */; };
 		D897698A1F7D56D80061F776 /* FaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89769891F7D56D80061F776 /* FaceViewController.swift */; };
+		D8F0F3281F81C813002E42DB /* DisplaysSensitiveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F0F3271F81C813002E42DB /* DisplaysSensitiveData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		D8934D2A1F79A340003DEE10 /* selfieappTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selfieappTests.swift; sourceTree = "<group>"; };
 		D8934D2C1F79A340003DEE10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D89769891F7D56D80061F776 /* FaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceViewController.swift; sourceTree = "<group>"; };
+		D8F0F3271F81C813002E42DB /* DisplaysSensitiveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaysSensitiveData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,12 +82,13 @@
 			isa = PBXGroup;
 			children = (
 				D8934D151F79A340003DEE10 /* AppDelegate.swift */,
-				D8934D171F79A340003DEE10 /* ViewController.swift */,
-				D8934D191F79A340003DEE10 /* Main.storyboard */,
 				D8934D1C1F79A340003DEE10 /* Assets.xcassets */,
-				D8934D1E1F79A340003DEE10 /* LaunchScreen.storyboard */,
-				D8934D211F79A340003DEE10 /* Info.plist */,
+				D8F0F3271F81C813002E42DB /* DisplaysSensitiveData.swift */,
 				D89769891F7D56D80061F776 /* FaceViewController.swift */,
+				D8934D211F79A340003DEE10 /* Info.plist */,
+				D8934D1E1F79A340003DEE10 /* LaunchScreen.storyboard */,
+				D8934D191F79A340003DEE10 /* Main.storyboard */,
+				D8934D171F79A340003DEE10 /* ViewController.swift */,
 			);
 			path = selfieapp;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				D897698A1F7D56D80061F776 /* FaceViewController.swift in Sources */,
 				D8934D181F79A340003DEE10 /* ViewController.swift in Sources */,
 				D8934D161F79A340003DEE10 /* AppDelegate.swift in Sources */,
+				D8F0F3281F81C813002E42DB /* DisplaysSensitiveData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
