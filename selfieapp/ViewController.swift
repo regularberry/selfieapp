@@ -10,16 +10,13 @@ import UIKit
 import AVFoundation
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var imageView: UIImageView!
-    private var sessionQueue = DispatchQueue(label: "com.example.session_access_queue")
+    @IBOutlet weak var previewView: UIView!
     
-    private var session:AVCaptureSession!
     private var cameraDevice:AVCaptureDevice?
+    private var sessionQueue = DispatchQueue(label: "com.example.session_access_queue")
+    private var session:AVCaptureSession!
     private var stillCameraOutput:AVCaptureStillImageOutput!
-    private var videoOutput:AVCaptureVideoDataOutput!
-    private var metadataOutput:AVCaptureMetadataOutput!
     
     var previewLayer:AVCaptureVideoPreviewLayer!
     
@@ -32,9 +29,7 @@ class ViewController: UIViewController {
                 return
             }
             let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buff)
-            
             if let data = imageData, let i = UIImage(data: data) {
-                
                 DispatchQueue.main.async {
                     let faceVC = FaceViewController.create(i)
                     self.navigationController?.pushViewController(faceVC, animated: false)
@@ -45,7 +40,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         initializeSession()
         previewLayer.frame = previewView.bounds
@@ -56,14 +50,8 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
         startRunning()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func initializeSession() {
-        
         session = AVCaptureSession()
         session.sessionPreset = .photo
         
@@ -98,9 +86,7 @@ class ViewController: UIViewController {
     }
     
     func configureDeviceInput() {
-        
         performConfiguration { () -> Void in
-            
             let availableCameraDevices = AVCaptureDevice.devices(for: .video)
             for device in availableCameraDevices {
                 if device.position == .front {
@@ -133,35 +119,21 @@ class ViewController: UIViewController {
         }
     }
     
-    func performConfiguration(block: @escaping (() -> Void)) {
-        sessionQueue.async() { () -> Void in
-            block()
-        }
-    }
-    
-    func performConfigurationOnCurrentCameraDevice(block: @escaping ((_ currentDevice:AVCaptureDevice) -> Void)) {
-        if let device = self.cameraDevice {
-            performConfiguration { () -> Void in
-                do {
-                    try device.lockForConfiguration()
-                    block(device)
-                    device.unlockForConfiguration()
-                } catch {
-                    
-                }
-            }
-        }
-    }
-    
     func startRunning() {
-        performConfiguration { () -> Void in
+        performConfiguration {
             self.session.startRunning()
         }
     }
 
     func stopRunning() {
-        performConfiguration { () -> Void in
+        performConfiguration {
             self.session.stopRunning()
+        }
+    }
+    
+    func performConfiguration(block: @escaping (() -> Void)) {
+        sessionQueue.async() {
+            block()
         }
     }
 }

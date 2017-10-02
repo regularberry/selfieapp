@@ -49,7 +49,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="F1A-0A-9aF">
-                        <barButtonItem key="rightBarButtonItem" title="screenshot" id="38c-Ba-9fc">
+                        <barButtonItem key="rightBarButtonItem" title="selfie!" id="38c-Ba-9fc">
                             <connections>
                                 <action selector="takeScreenshot:" destination="BYZ-38-t0r" id="Izk-z0-fwN"/>
                             </connections>
@@ -71,7 +71,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bigSean.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="LeR-qH-0hJ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LeR-qH-0hJ">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
                         </subviews>
@@ -93,7 +93,4 @@
             <point key="canvasLocation" x="896.79999999999995" y="132.68365817091455"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="bigSean.jpg" width="960" height="1280"/>
-    </resources>
 </document>

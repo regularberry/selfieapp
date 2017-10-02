@@ -5,6 +5,7 @@
 //  Created by Sean Berry on 10/1/17.
 //  Copyright © 2017 Sean Berry. All rights reserved.
 //
+import UIKit
 
 protocol DisplaysSensitiveData {
     func hideSensitiveData()
